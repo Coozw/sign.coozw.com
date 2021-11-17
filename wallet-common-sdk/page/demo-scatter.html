@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>scatter-demo</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+
+    <!--eos-->
+    <script src="../js/lib/eosjs/eos.min.js"></script>
+    <!--End eos-->
+
+    <!--scatter-->
+    <script src="../js/lib/scatterjs/scatterjs-core.min.js"></script>
+    <script src="../js/lib/scatterjs/scatterjs-plugin-eosjs.min.js"></script>
+    <!--End scatter-->
+
+    <script src="../js/lib/jquery/jquery-1.9.1.min.js"></script>
+
+</head>
+<body>
+
+<div class="container mt-4 mb-5">
+
+
+    <!-- 检查环境是否具备 -->
+    <div class="card mb-4">
+        <h6 class="card-header">检查环境是否具备 (是否有 scatter 插件 )</h6>
+        <div class="card-body">
+            <button type="submit" class="btn btn-primary" id="isConnected_submit">检测</button>
+        </div>
+        <div class="card-footer text-muted">
+            <h6>Returns:</h6>
+            <textarea class="form-control" id="isConnected_showResult" readonly placeholder="Returns"></textarea>
+        </div>
+    </div>
+
+    <!--转账-->
+    <div class="card mb-4">
+        <h6 class="card-header">查询余额</h6>
+        <div class="card-body">
+            <h6>Parameters:</h6>
+            <div class="form-group row">
+                <label for="" class="col-4 col-form-label text-right">账户:</label>
+                <div class="col-8">
+                    <input type="text" class="form-control" id="getBalance_account" placeholder=""
+                           value="google111111">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary" id="getBalance_submit">查询余额</button>
+        </div>
+        <div class="card-footer text-muted">
+            <h6>Returns:</h6>
+            <textarea class="form-control" id="getBalance_showResult" readonly placeholder="Returns"></textarea>
+        </div>
+    </div>
+
+    <!--转账-->
+    <div class="card mb-4">
+        <h6 class="card-header">转账(转出)</h6>
+        <div class="card-body">
+            <h6>Parameters:</h6>
+            <div class="form-group row">
+                <label for="" class="col-4 col-form-label text-right">对方账户名:</label>
+                <div class="col-8">
+                    <input type="text" class="form-control" id="transfer_account" placeholder=""
+                           value="google111111">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="" class="col-4 col-form-label text-right">金额:</label>
+                <div class="col-8">
+                    <input type="text" class="form-control" id="transfer_amount" placeholder=""
+                           value="0.0001">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="" class="col-4 col-form-label text-right">备注:</label>
+                <div class="col-8">
+                    <input type="text" class="form-control" id="transfer_memo" placeholder=""
+                           value="memo">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary" id="transfer_submit">转账</button>
+        </div>
+        <div class="card-footer text-muted">
+            <h6>Returns:</h6>
+            <textarea class="form-control" id="transfer_showResult" readonly placeholder="Returns"></textarea>
+        </div>
+    </div>
+
+
+    <!--actions-->
+    <div class="card mb-4">
+        <h6 class="card-header">actions</h6>
+        <div class="card-body">
+            <h6>Parameters:</h6>
+            <div class="form-group row">
+                <label for="" class="col-4 col-form-label text-right">actions_account:</label>
+                <div class="col-8">
+                    <input type="text" class="form-control" id="actions_account" placeholder=""
+                           value="eosio.token">
+                </div>
+            </div>
+            <div class="form-group row mb4">
+                <label for="" class="col-4 col-form-label text-right">actions_name:</label>
+                <div class="col-8">
+                    <input type="text" class="form-control" id="actions_name" placeholder=""
+                           value="transfer">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="" class="col-4 col-form-label text-right">from:</label>
+                <div class="col-8">
+                    <input type="text" class="form-control" id="actions_from" placeholder=""
+                           value="">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="" class="col-4 col-form-label text-right">to:</label>
+                <div class="col-8">
+                    <input type="text" class="form-control" id="actions_to" placeholder=""
+                           value="google111111">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="" class="col-4 col-form-label text-right">quantity:</label>
+                <div class="col-8">
+                    <input type="text" class="form-control" id="actions_quantity" placeholder=""
+                           value="0.0001">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="" class="col-4 col-form-label text-right">memo:</label>
+                <div class="col-8">
+                    <input type="text" class="form-control" id="actions_memo" placeholder=""
+                           value="memo">
+                </div>
+            </div>
+
+
+            <button type="submit" class="btn btn-primary" id="actions_submit">转账</button>
+        </div>
+        <div class="card-footer text-muted">
+            <h6>Returns:</h6>
+            <textarea class="form-control" id="actions_showResult" readonly placeholder="Returns"></textarea>
+        </div>
+    </div>
+
+</div>
+
+
+<!--JQ-->
+<script type="text/javascript">
+    $(function () {
+
+        // 文本框自适应高度
+        function textareaAutoHeight() {
+            $('textarea').each(function () {
+                this.setAttribute('style', 'height:' + (this.scrollHeight) + 'px;overflow-y:hidden;');
+            });
+        }
+
+
+        ScatterJS.plugins(new ScatterEOS());
+
+        const servers = [
+            "api.eosnewyork.io"
+            ,"mainnet.eoscanada.com"
+            ,"mainnet.eoscannon.io"
+            ,"api.helloeos.com.cn"
+            ,"nodes.get-scatter.com"
+        ];
+
+        const network = {
+            blockchain: 'eos',
+            protocol: 'https',
+            host: servers[parseInt(Math.random()*servers.length)],
+            port: 443,
+            chainId: 'aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906'
+        }
+
+
+        // 检查环境是否具备
+        $("#isConnected_submit").click(function () {
+            ScatterJS.scatter.connect('BlackJack').then(function (connected) {
+                $("#isConnected_showResult").val(JSON.stringify(connected, null, 4));
+                // 文本框自适应高度
+                textareaAutoHeight();
+            })
+        });
+
+        
+        //查询余额
+        $("#getBalance_submit").on("click", function () {
+            let account = $("#getBalance_account").val();
+            if (window["scatter"]) {
+                // 有 scatter 插件
+                console.log(" 有 scatter 插件");
+                ScatterJS.scatter.connect('BlackJack').then(function (connected) {
+                    console.log("connected:", connected);
+                    if (!connected) return false;
+                    const scatter = ScatterJS.scatter;
+                    const requiredFields = {accounts: [network]};
+                    scatter.getIdentity(requiredFields).then(() => {
+                        const acc = scatter.identity.accounts.find(x => x.blockchain === 'eos');
+                        
+                        const eosOptions = {expireInSeconds: 60};
+                        const eos = scatter.eos(network, Eos, eosOptions);
+                        //查询账户余额
+                        eos.getCurrencyBalance("eosio.token",account,"EOS").then(accBalance => {
+                            console.log("accBalance:", accBalance);
+                            // That's it!
+                            $("#getBalance_showResult").val(JSON.stringify(accBalance, null, 4));
+                            // 文本框自适应高度
+                            textareaAutoHeight();
+                        }).catch(error => {
+                            console.error(error);
+                        });
+                    }).catch(error => {
+                        // The user rejected this request, or doesn't have the appropriate requirements.
+                        console.error(error);
+                    });
+
+                }).catch(error => {
+                    // The user rejected this request, or doesn't have the appropriate requirements.
+                    console.error(error);
+                });
+            } else {
+                // 无 scatter 插件
+                alert("Scatter not loaded!请安装Scatter插件！");
+                return Promise.reject("Scatter not loaded!");
+            }
+
+        });
+        // 转账
+        $("#transfer_submit").on("click", function () {
+            if (window["scatter"]) {
+                // 有 scatter 插件
+                console.log(" 有 scatter 插件");
+                ScatterJS.scatter.connect('BlackJack').then(function (connected) {
+                    console.log("connected:", connected);
+                    if (!connected) return false;
+                    const scatter = ScatterJS.scatter;
+                    const requiredFields = {accounts: [network]};
+                    scatter.getIdentity(requiredFields).then(() => {
+                        const account = scatter.identity.accounts.find(x => x.blockchain === 'eos');
+                        const eosOptions = {expireInSeconds: 60};
+                        const eos = scatter.eos(network, Eos, eosOptions);
+                        const transactionOptions = {authorization: [`${account.name}@${account.authority}`]};
+
+
+                        var transfer_account = $("#transfer_account").val();
+                        var transfer_amount = $("#transfer_amount").val();
+                        var transfer_memo = $("#transfer_memo").val();
+
+
+                        // 转账
+                        eos.transfer(account.name, transfer_account, transfer_amount + ' EOS', transfer_memo, transactionOptions).then(trx => {
+                            console.log("trx:", trx);
+                            // That's it!
+                            console.log(`Transaction ID: ${trx.transaction_id}`);
+                            $("#transfer_showResult").val(JSON.stringify(trx, null, 4));
+                            // 文本框自适应高度
+                            textareaAutoHeight();
+                        }).catch(error => {
+                            console.error(error);
+                        });
+                    })
+                }).catch(error => {
+                    // The user rejected this request, or doesn't have the appropriate requirements.
+                    console.error(error);
+                });
+            } else {
+                // 无 scatter 插件
+                alert("Scatter not loaded!请安装Scatter插件！");
+                return Promise.reject("Scatter not loaded!");
+            }
+
+        });
+
+
+        // actions
+        $("#actions_submit").on("click", function () {
+            if (window["scatter"]) {
+                // 有 scatter 插件
+                console.log(" 有 scatter 插件");
+                ScatterJS.scatter.connect('BlackJack').then(function (connected) {
+                    console.log("connected:", connected);
+                    if (!connected) return false;
+                    const scatter = ScatterJS.scatter;
+                    const requiredFields = {accounts: [network]};
+                    scatter.getIdentity(requiredFields).then(() => {
+                        const eosOptions = {expireInSeconds: 60};
+                        const eos = scatter.eos(network, Eos, eosOptions);
+
+                        var account = $("#actions_account").val();
+                        var name = $("#actions_name").val();
+
+                        var from = $("#actions_from").val();
+                        var to = $("#actions_to").val();
+                        var quantity = $("#actions_quantity").val();
+                        var memo = $("#actions_memo").val();
+
+                        //  transaction
+                        eos.transaction({
+                            actions: [
+                                {
+                                    account: account,
+                                    name: name,
+                                    authorization: [{
+                                        actor: from,
+                                        permission: 'active'
+                                    }],
+                                    data: {
+                                        from: from,
+                                        to: to,
+                                        quantity: quantity + ' EOS',
+                                        memo: memo
+                                    }
+                                }
+                            ]
+                        }).then(trx => {
+                            console.log("trx:", trx);
+                            $("#actions_showResult").val(JSON.stringify(trx, null, 4));
+                            // 文本框自适应高度
+                            textareaAutoHeight();
+                        }).catch(error => {
+                            console.error(error);
+                        });
+
+                    })
+                }).catch(error => {
+                    // The user rejected this request, or doesn't have the appropriate requirements.
+                    console.error(error);
+                });
+            } else {
+                // 无 scatter 插件
+                alert("Scatter not loaded!请安装Scatter插件！");
+                return Promise.reject("Scatter not loaded!");
+            }
+
+        });
+
+
+    });
+</script>
+<!--End JQ-->
+
+</body>
+</html>

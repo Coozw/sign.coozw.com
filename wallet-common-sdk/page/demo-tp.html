@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>demo-tp</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+
+    <style type="text/css">
+        textarea {
+            font-size: .6rem !important;
+        }
+    </style>
+
+
+</head>
+<body>
+
+<div class="container mt-4 mb-5">
+
+    <!--检查环境是否具备-->
+    <div class="card mb-4">
+        <h6 class="card-header">检查环境是否具备 ( wallet_sdk.isConnected() )</h6>
+        <div class="card-body">
+        </div>
+        <div class="card-footer text-muted">
+            <h6>Returns:</h6>
+            <textarea class="form-control" id="isConnected_showResult" readonly placeholder="Returns"></textarea>
+        </div>
+    </div>
+
+    <!-- 测试提交交易 -->
+    <div class="card mb-4">
+        <h6 class="card-header">测试转账交易</h6>
+        <div class="card-body">
+            <button type="submit" class="btn btn-primary" id="transfer_submit">提交</button>
+        </div>
+        <div class="card-footer text-muted">
+            <h6>Returns:</h6>
+            <textarea class="form-control" id="transfer_showResult" readonly placeholder="Returns"></textarea>
+        </div>
+    </div>
+</div>
+
+
+<script src="../js/lib/jquery/jquery-1.9.1.min.js"></script>
+
+
+<!--必须的按顺序引用-->
+<script src="../js/lib/tp/tp.js?v=5"></script>
+
+
+<!--JQ-->
+<script type="text/javascript">
+    $(function () {
+
+
+        // 文本框自适应高度
+        function textareaAutoHeight() {
+            $('textarea').each(function () {
+                this.setAttribute('style', 'height:' + (this.scrollHeight) + 'px;overflow-y:hidden;');
+            });
+        }
+
+
+        //  检查环境是否具备
+        $("#isConnected_showResult").val(tp.isConnected());
+
+
+        $("#transfer_submit").click(function(){
+            var params = {
+                "from":"baidualibaba",
+                "to": "google111111",
+                "amount": "0.0001",
+                "tokenName": "EOS",
+                "precision": 4,
+                "contract": "eosio.token",
+                "memo": "test"
+            }
+            tp.eosTokenTransfer(params).then(function(ret){
+                alert(JSON.stringify(ret));
+                $("#transfer_showResult").val(JSON.stringify(ret, null, 4));
+                // 文本框自适应高度
+                textareaAutoHeight();
+            }).catch(function(err){
+                alert(err);
+                $("#transfer_showResult").val(JSON.stringify(err, null, 4));
+                // 文本框自适应高度
+                textareaAutoHeight();
+            });
+        });
+
+    });
+</script>
+<!--End JQ-->
+</body>
+</html>

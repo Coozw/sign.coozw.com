@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>demo-mds</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+
+    <style type="text/css">
+        textarea {
+            font-size: .6rem !important;
+        }
+    </style>
+
+
+</head>
+<body>
+
+<div class="container mt-4 mb-5">
+
+    <!--app_get_account-->
+    <div class="card mb-4">
+        <h6 class="card-header">get_account ( wallet_sdk.get_account() )</h6>
+        <div class="card-body">
+            <h6>Parameters:</h6>
+
+            <button type="submit" class="btn btn-primary" id="get_account_submit">获取</button>
+        </div>
+        <div class="card-footer text-muted">
+            <h6>Returns:</h6>
+            <textarea class="form-control" id="get_account_showResult" readonly placeholder="Returns"></textarea>
+        </div>
+    </div>
+
+    <!--get_currency_balance-->
+    <div class="card mb-4">
+        <h6 class="card-header">get_currency_balance ( wallet_sdk.get_currency_balance() )</h6>
+        <div class="card-body">
+            <h6>Parameters:</h6>
+
+            <button type="submit" class="btn btn-primary" id="get_currency_balance_submit">获取</button>
+        </div>
+        <div class="card-footer text-muted">
+            <h6>Returns:</h6>
+            <textarea class="form-control" id="get_currency_balance_showResult" readonly
+                      placeholder="Returns"></textarea>
+        </div>
+    </div>
+
+
+    <!--mdseos.create_action_buyram-->
+    <div class="card mb-4">
+        <h6 class="card-header">create_action_buyram ( wallet_sdk.create_action_buyram() )</h6>
+        <div class="card-body">
+            <h6>Parameters:</h6>
+
+            <div class="form-group row">
+                <label for="create_action_buyram_params_from" class="col-4 col-form-label text-right">from:</label>
+                <div class="col-8">
+                    <input type="text" class="form-control" id="create_action_buyram_params_from" placeholder="from"
+                           value="haishengwang">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="create_action_buyram_params_to" class="col-4 col-form-label text-right">to:</label>
+                <div class="col-8">
+                    <input type="text" class="form-control" id="create_action_buyram_params_to" placeholder="to"
+                           value="">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="create_action_buyram_params_amount" class="col-4 col-form-label text-right">amount:</label>
+                <div class="col-8">
+                    <input type="text" class="form-control" id="create_action_buyram_params_amount" placeholder="amount"
+                           value="">
+                </div>
+            </div>
+
+
+            <button type="submit" class="btn btn-primary" id="create_action_buyram_submit">获取</button>
+        </div>
+        <div class="card-footer text-muted">
+            <h6>Returns:</h6>
+            <textarea class="form-control" id="create_action_buyram_showResult" readonly
+                      placeholder="Returns"></textarea>
+        </div>
+    </div>
+
+</div>
+
+
+<!--必须的按顺序引用-->
+<script src="../js/lib/jquery/jquery-1.9.1.min.js"></script>
+<script src="../js/lib/mds/jquery.mdseos.js"></script>
+
+<script src="../js/common-wallet-sdk/common-wallet-sdk.js"></script>
+<script src="../js/common-wallet-sdk/common-wallet-sdk-mds.js"></script>
+
+<!--JQ-->
+<script type="text/javascript">
+    $(function () {
+
+        // 文本框自适应高度
+        function textareaAutoHeight() {
+            setTimeout(function () {
+                $('textarea').each(function () {
+                    this.setAttribute('style', 'height:' + (this.scrollHeight) + 'px;overflow-y:hidden;');
+                })
+            }, 1000);
+        }
+
+        // Init EOS endpoint
+        // nodes[0] --> eos test net
+        // nodes[1] --> eos main net
+        $.mdseos.init(
+            {
+                "nodes": [
+                    {"jsonRpc": "https:\/\/eostestnet.medishares.net"}, //node:0
+                    {"jsonRpc": "https:\/\/eosmainnet.medishares.net"}  //node:1
+                ]
+            }
+        );
+
+
+        //  get_account_submit
+        $("#get_account_submit").click(function () {
+            $.mdseos.app_get_account(
+                function (account_info) {
+                    $("#get_account_showResult").val(JSON.stringify(account_info, null, 4));
+                    // 文本框自适应高度
+                    textareaAutoHeight();
+                } //callback
+            )
+        })
+
+
+        // get_currency_balance
+        $("#get_currency_balance_submit").click(function () {
+
+            $.mdseos.get_currency_balance(
+                function (balance) {
+                    console.log(balance);
+                    // $('.eos-balance').html(balance['EOS'] + ' EOS');
+
+                    alert(balance.toString())
+
+                }, //success callback
+                $.mdseos.getAccount(), //account
+                function () {
+                    alert('get balance failed!');
+                } //error callback
+            );
+
+        })
+
+
+        //    create_action_buyram
+        $("#create_action_buyram_submit").click(function () {
+
+            var from = $("#create_action_buyram_params_from").val();
+            var to = $("#create_action_buyram_params_to").val();
+            var amount = $("#create_action_buyram_params_amount").val();
+
+            var params = {
+                "from": from,
+                "to": to,
+                "amount": amount
+            }
+
+            $.mdseos.create_action_buyram(
+                function (action) {
+                    alert(action.toString())
+                    console.log(action)
+                },
+                params.from, // buyram payer
+                params.to, // buyram receiver
+                params.amount + ' EOS', // buyram quant
+                false, // to Bin ( app sign set false)
+                failedCallback // failed callback
+            );
+
+
+        })
+
+
+    });
+</script>
+<!--End JQ-->
+</body>
+</html>

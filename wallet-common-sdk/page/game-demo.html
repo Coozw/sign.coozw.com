@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>game-demo-blackjack</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+
+    <style type="text/css">
+        textarea {
+            font-size: .6rem !important;
+        }
+    </style>
+
+
+</head>
+<body>
+
+<div class="container mt-4 mb-5">
+    <!--检查环境是否具备-->
+    <div class="card mb-4">
+        <h6 class="card-header">检查环境是否具备 ( wallet_sdk.isConnected() )</h6>
+        <div class="card-body">
+        </div>
+        <div class="card-footer text-muted">
+            <h6>Returns:</h6>
+            <textarea class="form-control" id="isConnected_showResult" readonly placeholder="Returns"></textarea>
+        </div>
+    </div>
+    <!-- localStoreage测试 -->
+    <div class="card mb-4">
+            <h6 class="card-header">localStoreage测试</h6>
+            <div class="card-body">
+                <div class="form-group row">
+                    <label for="source" class="col-4 col-form-label text-right">设置值到localStoreage:</label>
+                    <div class="col-8">
+                        <input type="text" class="form-control" id="ls_msg" placeholder="值"
+                            value="">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary" id="setls_submit">设置值</button>
+                <button type="submit" class="btn btn-primary" id="getls_submit">查询值</button>
+            </div>
+            <div class="card-footer text-muted">
+                <h6>Returns:</h6>
+                <textarea class="form-control" id="ls_showResult" readonly placeholder="Returns"></textarea>
+            </div>
+        </div>
+    <!-- 充值 -->
+    <div class="card mb-4">
+        <h6 class="card-header">充值</h6>
+        <div class="card-body">
+            <h6>Parameters:</h6>
+            <div class="form-group row">
+                <label for="source" class="col-4 col-form-label text-right">金额:</label>
+                <div class="col-8">
+                    <input type="text" class="form-control" id="transfer_params_amount" placeholder="amount"
+                        value="1">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary" id="deposit_submit">充值</button>
+        </div>
+        <div class="card-footer text-muted">
+            <h6>Returns:</h6>
+            <textarea class="form-control" id="deposit_showResult" readonly placeholder="Returns"></textarea>
+        </div>
+    </div>
+    <!-- 查看余额 -->
+    <div class="card mb-4">
+        <h6 class="card-header">查看余额</h6>
+        <div class="card-body">
+            <button type="submit" class="btn btn-primary" id="balance_submit">查询</button>
+        </div>
+        <div class="card-footer text-muted">
+            <h6>Returns:</h6>
+            <textarea class="form-control" id="balance_showResult" readonly placeholder="Returns"></textarea>
+        </div>
+    </div>
+    <!-- 开始游戏 -->
+    <div class="card mb-4">
+        <h6 class="card-header">开始游戏</h6>
+        <div class="card-body">
+            <button type="submit" class="btn btn-primary" id="start_submit">开始</button>
+        </div>
+        <div class="card-footer text-muted">
+            <h6>Returns:</h6>
+            <textarea class="form-control" id="start_showResult" readonly placeholder="Returns"></textarea>
+        </div>
+    </div>
+
+    <!-- 要牌 -->
+    <div class="card mb-4">
+        <h6 class="card-header">要牌</h6>
+        <div class="card-body">
+            <button type="submit" class="btn btn-primary" id="hit_submit">要牌</button>
+        </div>
+        <div class="card-footer text-muted">
+            <h6>Returns:</h6>
+            <textarea class="form-control" id="hit_showResult" readonly placeholder="Returns"></textarea>
+        </div>
+    </div>
+    <!-- 停牌 -->
+    <div class="card mb-4">
+        <h6 class="card-header">停牌</h6>
+        <div class="card-body">
+            <button type="submit" class="btn btn-primary" id="stand_submit">停牌</button>
+        </div>
+        <div class="card-footer text-muted">
+            <h6>Returns:</h6>
+            <textarea class="form-control" id="stand_showResult" readonly placeholder="Returns"></textarea>
+        </div>
+    </div>
+    <!-- 查当前的牌 -->
+    <div class="card mb-4">
+        <h6 class="card-header">查当前的牌</h6>
+        <div class="card-body">
+            <button type="submit" class="btn btn-primary" id="current_play_submit">查当前牌</button>
+        </div>
+        <div class="card-footer text-muted">
+            <h6>Returns:</h6>
+            <textarea class="form-control" id="current_play_showResult" readonly placeholder="Returns"></textarea>
+        </div>
+    </div>
+    <!-- 历史牌 -->
+    <div class="card mb-4">
+        <h6 class="card-header">历史牌局</h6>
+        <div class="card-body">
+            <button type="submit" class="btn btn-primary" id="history_submit">历史牌局</button>
+        </div>
+        <div class="card-footer text-muted">
+            <h6>Returns:</h6>
+            <textarea class="form-control" id="history_showResult" readonly placeholder="Returns"></textarea>
+        </div>
+    </div>
+    <!-- 游戏详情 -->
+    <div class="card mb-4">
+            <h6 class="card-header">牌局游戏详情</h6>
+            <div class="card-body">
+                <button type="submit" class="btn btn-primary" id="game_detail_submit">游戏详情 </button>
+            </div>
+            <div class="card-footer text-muted">
+                <h6>Returns:</h6>
+                <textarea class="form-control" id="game_detail_showResult" readonly placeholder="Returns"></textarea>
+            </div>
+        </div>
+    <div class="card mb-4">
+        <h6 class="card-header">提现</h6>
+        <div class="card-body">
+            <h6>Parameters:</h6>
+            <div class="form-group row">
+                <label for="source" class="col-4 col-form-label text-right">金额:</label>
+                <div class="col-8">
+                    <input type="text" class="form-control" id="withdraw_params_amount" placeholder="amount"
+                        value="0.0001">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary" id="withdraw_submit">提现</button>
+        </div>
+        <div class="card-footer text-muted">
+            <h6>Returns:</h6>
+            <textarea class="form-control" id="withdraw_showResult" readonly placeholder="Returns"></textarea>
+        </div>
+    </div>
+
+</div>
+
+<!-- jquery是页面用的，不是必须的 -->
+<script src="../js/lib/jquery/jquery-1.9.1.min.js"></script>
+
+
+
+
+<!-- 实际使用时下面5个是必须引入的 -->
+<!-- CDN
+<script src="https://cdn.jsdelivr.net/npm/eosjs-ecc@4.0.4/lib/eosjs-ecc.min.js"
+integrity="sha512-dYFDmK/d9r3/NCp6toLtfkwOjSMRBaEzaGAx1tfRItC0nsI0hVLERk05iNBQR7uDNI7ludYhcBI4vUiFHdjsTQ=="
+crossorigin="anonymous"></script> -->
+<script src="../js/lib/eosjs/eos.min.js"></script>
+<script src="../js/lib/eos-ecc/eosjs-ecc.min.js"></script>
+<script src="../js/lib/tp/tp.js?timestamp=1"></script>
+<script src="../js/tool/random-tool.js"></script>
+<script src="../js/common-wallet-sdk/common-wallet-sdk.js?timestamp=2"></script>
+<script src="../js/common-wallet-sdk/common-wallet-sdk-tp.js?timestamp=2"></script>
+<script src="../js/common-wallet-sdk/common-wallet-sdk-eosjs.js?timestamp=2"></script>
+<script src="../js/blackjack/blackjack-sdk.js?timestamp=999211118"></script>
+<script src="../js/blackjack/blackjack-sdk-demo.js?timestamp=4"></script>
+
+
+<!--JQ-->
+<script type="text/javascript">
+    $(function () {
+
+        // 文本框自适应高度
+        function textareaAutoHeight() {
+            $('textarea').each(function () {
+                this.setAttribute('style', 'height:' + (this.scrollHeight) + 'px;overflow-y:hidden;');
+            });
+        }
+        
+        //  检查环境是否具备
+        $("#isConnected_showResult").val(wallet_sdk.isConnected())
+
+        $("#setls_submit").click(function(){
+            var msg = $("#ls_msg").val();
+            localStorage.setItem("ls_msg",msg);
+            alert("设置成功");
+        });
+
+        $("#getls_submit").click(function(){
+            var msg = localStorage.getItem("ls_msg");
+            $("#ls_showResult").val(JSON.stringify(msg, null, 4));
+        });
+
+        // deposit
+        $("#deposit_submit").click(function () {            
+            var amount = $("#transfer_params_amount").val();
+            blackjack_sdk.deposit(amount,function(ret){
+                $("#deposit_showResult").val(JSON.stringify(ret, null, 4));
+                // 文本框自适应高度
+                textareaAutoHeight();
+            });
+        });
+
+
+        // balance
+        $("#balance_submit").click(function () {
+            var success = function(ret){
+                $("#balance_showResult").val(JSON.stringify(ret, null, 4));
+                // 文本框自适应高度
+                textareaAutoHeight();
+            };
+            blackjack_sdk.getGameAccount(success);
+        });
+
+        // start
+        $("#start_submit").click(function () {
+            var success = function(ret){
+                $("#start_showResult").val(JSON.stringify(ret, null, 4));
+                // 文本框自适应高度
+                textareaAutoHeight();
+            };
+            blackjack_sdk.start(success);
+        });
+        
+        // 查牌
+        $("#current_play_submit").click(function () {
+            var success = function(ret){
+                $("#current_play_showResult").val(JSON.stringify(ret, null, 4));
+                // 文本框自适应高度
+                textareaAutoHeight();
+            };
+            blackjack_sdk.getPlayerCards(success);
+        });
+
+        // hit
+        $("#hit_submit").click(function () {
+            var success = function(ret){
+                $("#hit_showResult").val(JSON.stringify(ret, null, 4));
+                // 文本框自适应高度
+                textareaAutoHeight();
+            };
+            blackjack_sdk.hit(success);
+        });
+        //stand
+        $("#stand_submit").click(function () {
+            var success = function(ret){
+                $("#stand_showResult").val(JSON.stringify(ret, null, 4));
+                // 文本框自适应高度
+                textareaAutoHeight();
+            };
+            blackjack_sdk.stand(success);
+        });
+        //PlayerRecord
+        $("#history_submit").click(function () {
+            var success = function(ret){
+                $("#history_showResult").val(JSON.stringify(ret, null, 4));
+                // 文本框自适应高度
+                textareaAutoHeight();
+            };
+            blackjack_sdk.getPlayerRecord(success);
+        });
+
+        //GameDetail
+        $("#game_detail_submit").click(function () {
+            var success = function(ret){
+                $("#game_detail_showResult").val(JSON.stringify(ret, null, 4));
+                // 文本框自适应高度
+                textareaAutoHeight();
+            };
+            blackjack_sdk.getGameDetail(1,success);
+        });
+        //withdraw
+        $("#withdraw_submit").click(function () {
+            var amount = $("#withdraw_params_amount").val();
+            var success = function(ret){
+                $("#withdraw_showResult").val(JSON.stringify(ret, null, 4));
+                // 文本框自适应高度
+                textareaAutoHeight();
+            };
+            blackjack_sdk.withdraw(amount,success);
+        });
+
+    });
+</script>
+<!--End JQ-->
+</body>
+</html>

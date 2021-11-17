@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>demo-blackjack</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+
+    <style type="text/css">
+        textarea {
+            font-size: .6rem !important;
+        }
+    </style>
+
+
+</head>
+<body>
+
+<div class="container mt-4 mb-5">
+    <!-- 生成一个64位hex随机数 -->
+    <div class="card mb-4">
+        <h6 class="card-header">生成一个64位hex随机数</h6>
+        <div class="card-body">
+            <button type="submit" class="btn btn-primary" id="random_submit">生成随机数</button>
+        </div>
+        <div class="card-footer text-muted">
+            <h6>Returns:</h6>
+            <textarea class="form-control" id="random_showResult" readonly placeholder="Returns"></textarea>
+        </div>
+    </div>
+
+    <!-- 例子 -->
+    <div class="card mb-4">
+        <h6 class="card-header">EOS中正确的的结果</h6>
+        <div class="card-body">
+            <h6>随机数:</h6>
+            <textarea class="form-control" readonly>70a73806497bc9ba6b85f650ad24539b43c5ccb6f815131a9259eb509f319d2d</textarea>
+        </div>
+        <div class="card-footer text-muted">
+            <h6>加密后:</h6>
+            <textarea class="form-control" readonly>b6910e8c1579a7beda72b1417ded1ca5909389489eb13cd4e366a063734235a1</textarea>
+        </div>
+    </div>
+
+    <!--SHA256加密测试-->
+    <div class="card mb-4">
+        <h6 class="card-header">SHA256加密测试</h6>
+        <div class="card-body">
+            <h6>Parameters:</h6>
+
+            <div class="form-group row">
+                <label for="source" class="col-4 col-form-label text-right">source:</label>
+                <div class="col-8">
+                    <input type="text" class="form-control" id="source" placeholder="source"
+                           value="70a73806497bc9ba6b85f650ad24539b43c5ccb6f815131a9259eb509f319d2d">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary" id="sha256_submit">加密</button>
+        </div>
+        <div class="card-footer text-muted">
+            <h6>Returns:</h6>
+            <textarea class="form-control" id="sha256_showResult" readonly placeholder="Returns"></textarea>
+        </div>
+    </div>
+
+    <!--EOS ECC SHA256加密测试-->
+    <div class="card mb-4">
+        <h6 class="card-header">EOS-ECC SHA256加密测试</h6>
+        <div class="card-body">
+            <h6>Parameters:</h6>
+            <div class="form-group row">
+                <label for="source" class="col-4 col-form-label text-right">source:</label>
+                <div class="col-8">
+                    <input type="text" class="form-control" id="eos_ecc_source" placeholder="source"
+                           value="70a73806497bc9ba6b85f650ad24539b43c5ccb6f815131a9259eb509f319d2d">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary" id="eos_ecc_sha256_submit">加密</button>
+        </div>
+        <div class="card-footer text-muted">
+            <h6>Returns:</h6>
+            <textarea class="form-control" id="eos_ecc_sha256_showResult" readonly placeholder="Returns"></textarea>
+        </div>
+    </div>
+
+    <!--SHA3-256加密测试-->
+    <div class="card mb-4">
+        <h6 class="card-header">SHA3-256加密测试</h6>
+        <div class="card-body">
+            <h6>Parameters:</h6>
+            <div class="form-group row">
+                <label for="source" class="col-4 col-form-label text-right">source:</label>
+                <div class="col-8">
+                    <input type="text" class="form-control" id="sha3_source" placeholder="source"
+                           value="70a73806497bc9ba6b85f650ad24539b43c5ccb6f815131a9259eb509f319d2d">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary" id="sha3_256_submit">加密</button>
+        </div>
+        <div class="card-footer text-muted">
+            <h6>Returns:</h6>
+            <textarea class="form-control" id="sha3_256_showResult" readonly placeholder="Returns"></textarea>
+        </div>
+    </div>
+
+    <!--EOS-256加密测试-->
+    <div class="card mb-4">
+        <h6 class="card-header">EOS使用的SHA256加密测试</h6>
+        <div class="card-body">
+            <h6>Parameters:</h6>
+            <div class="form-group row">
+                <label for="source" class="col-4 col-form-label text-right">source:</label>
+                <div class="col-8">
+                    <input type="text" class="form-control" id="eos_source" placeholder="source"
+                           value="70a73806497bc9ba6b85f650ad24539b43c5ccb6f815131a9259eb509f319d2d">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary" id="eos_sha256_submit">加密</button>
+        </div>
+        <div class="card-footer text-muted">
+            <h6>Returns:</h6>
+            <textarea class="form-control" id="eos_sha256_showResult" readonly placeholder="Returns"></textarea>
+        </div>
+    </div>
+
+</div>
+
+<!-- jquery是页面用的，不是必须的 -->
+<script src="../js/lib/jquery/jquery-1.9.1.min.js"></script>
+<!-- 下面两个测试用的 -->
+<script src="../js/lib/crypto-js/crypto-js.js?timestamp=1"></script>
+<script src="../js/lib/sha3/sha3.js"></script>
+<!-- 上面两个加密库是测试用的 -->
+
+
+<!-- 实际使用时下面5个是必须引入的 -->
+<!-- CDN
+<script src="https://cdn.jsdelivr.net/npm/eosjs-ecc@4.0.4/lib/eosjs-ecc.min.js"
+integrity="sha512-dYFDmK/d9r3/NCp6toLtfkwOjSMRBaEzaGAx1tfRItC0nsI0hVLERk05iNBQR7uDNI7ludYhcBI4vUiFHdjsTQ=="
+crossorigin="anonymous"></script> -->
+<script src="../js/lib/eos-ecc/eosjs-ecc.min.js"></script>
+<script src="../js/lib/tp/tp.js?timestamp=1"></script>
+<script src="../js/tool/random-tool.js"></script>
+<script src="../js/common-wallet-sdk/common-wallet-sdk.js?timestamp=1"></script>
+<script src="../js/common-wallet-sdk/common-wallet-sdk-tp.js?timestamp=1"></script>
+<script src="../js/blackjack/blackjack-sdk.js"></script>
+
+
+<!--JQ-->
+<script type="text/javascript">
+    $(function () {
+
+        // 文本框自适应高度
+        function textareaAutoHeight() {
+            $('textarea').each(function () {
+                this.setAttribute('style', 'height:' + (this.scrollHeight) + 'px;overflow-y:hidden;');
+            });
+        }
+        // random
+        $("#random_submit").click(function () {            
+            var rdm = randomHex();
+
+            $("#random_showResult").val(rdm);
+            // 文本框自适应高度
+            textareaAutoHeight();
+        });
+
+        // sha256
+        $("#sha256_submit").click(function () {
+            var source = $("#source").val();
+            
+            var commitment = CryptoJS.SHA256(source);
+
+            $("#sha256_showResult").val(commitment);
+            // 文本框自适应高度
+            textareaAutoHeight();
+        });
+
+        // eos_ecc_sha256
+        $("#eos_ecc_sha256_submit").click(function () {
+            var source = $("#eos_ecc_source").val();
+            
+            var commitment = eosjs_ecc.sha256(source);
+
+            $("#eos_ecc_sha256_showResult").val(commitment);
+            // 文本框自适应高度
+            textareaAutoHeight();
+        });
+
+        // sha3_256
+        $("#sha3_256_submit").click(function () {
+            var source = $("#sha3_source").val();
+            
+            var commitment = sha3_256(source);
+
+            $("#sha3_256_showResult").val(commitment);
+            // 文本框自适应高度
+            textareaAutoHeight();
+        });
+
+        // eos_sha256  这个才是正路
+        $("#eos_sha256_submit").click(function () {
+            var source = $("#eos_source").val();
+            
+            var commitment = eosSha256(source);
+
+            $("#eos_sha256_showResult").val(commitment);
+            // 文本框自适应高度
+            textareaAutoHeight();
+        });
+
+    });
+</script>
+<!--End JQ-->
+</body>
+</html>
